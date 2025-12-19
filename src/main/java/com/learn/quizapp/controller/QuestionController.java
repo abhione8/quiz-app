@@ -3,7 +3,9 @@ package com.learn.quizapp.controller;
 import com.learn.quizapp.model.Question;
 import com.learn.quizapp.model.QuestionCategory;
 import com.learn.quizapp.service.QuestionService;
+import com.learn.quizapp.vo.ApiResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,18 +18,24 @@ public class QuestionController {
     QuestionService questionService;
 
     @GetMapping("all")
-    public List<Question> getQuestions(){
-        return questionService.getAllQuestions();
+    public ResponseEntity<ApiResponseVO<List<Question>>> getQuestions(){
+        return ResponseEntity.ok(
+                new ApiResponseVO<>("success", questionService.getAllQuestions())
+        );
     }
 
     @GetMapping("all/{category}")
-    public List<Question> getQuestionsByCategory(@PathVariable("category") QuestionCategory category){
-        return questionService.getQuestionsByCategory(category);
+    public ResponseEntity<ApiResponseVO<List<Question>>> getQuestionsByCategory(@PathVariable("category") QuestionCategory category){
+        return ResponseEntity.ok(
+                new ApiResponseVO<>("success",questionService.getQuestionsByCategory(category))
+        );
     }
 
     @PostMapping("add")
-    public String saveQuestion(@RequestBody Question question){
+    public ResponseEntity<ApiResponseVO<String>> saveQuestion(@RequestBody Question question){
         questionService.addQuestion(question);
-        return "Question added successfully";
+        return ResponseEntity.ok(
+                new ApiResponseVO<>("success","Question added successfully.")
+        );
     }
 }

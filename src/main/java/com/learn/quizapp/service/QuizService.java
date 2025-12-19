@@ -34,8 +34,8 @@ public class QuizService {
         quizDAO.save(quiz);
     }
 
-    public List<QuestionVO> getQuestions(Long id) {
-        Optional<Quiz> q= quizDAO.findById(id);
+    public List<QuestionVO> getQuestions(String title) {
+        Optional<Quiz> q= quizDAO.findByTitle(title);
         List<QuestionVO> ques= new ArrayList<>();
         if(q.isPresent()) {
             for (Question question : q.get().getQuestions()) {
@@ -67,5 +67,22 @@ public class QuizService {
             i++;
         }
         return result+" Out of "+ questions.size();
+    }
+
+    public List<QuizVO> getAllQuizes() {
+        List<Quiz> quizes = quizDAO.findAll();
+
+        List<QuizVO>  quizVOS= new ArrayList<>();
+        for(Quiz quiz:quizes){
+            QuizVO quizVO = new QuizVO();
+            quizVO.setTitle(quiz.getTitle()+" - "+quiz.getId());
+            if(!quiz.getQuestions().isEmpty()){
+                quizVO.setCategory(quiz.getQuestions().get(0).getCategory().toString());
+                quizVO.setDifficultyLevel(quiz.getQuestions().get(0).getDifficultyLevel().toString());
+            }
+            quizVO.setNumberOfQuestions(quiz.getQuestions().size());
+            quizVOS.add(quizVO);
+        }
+        return quizVOS;
     }
 }
