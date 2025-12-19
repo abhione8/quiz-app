@@ -1,0 +1,45 @@
+POST http://localhost:8080/question/add
+Content-Type: application/json
+{
+  "question": "",
+  "answer": "",
+  "option1": "",
+  "option2": "",
+  "option3": "",
+  "option4": "",
+  "difficultyLevel": "EASY",
+  "category": "JAVA"
+}
+
+###
+GET http://localhost:8080/question/all
+
+###
+GET http://localhost:8080/question/all/{category}
+
+###
+POST http://localhost:8080/quiz/create
+Content-Type: application/json
+{
+  "title": "quiz101",
+  "difficultyLevel": "HARD", (EASY/HARD/MEDIUM)
+  "category": "JAVA", (JAVA,PYTHON,SQL,HTML)
+  "numberOfQuestions": 2
+}
+
+###
+GET http://localhost:8080/quiz/get/21
+
+###
+POST http://localhost:8080/submit/21
+Content-Type: application/json
+[
+  {
+    "id": 2,
+    "response": "5"
+  },
+  {
+    "id": 8,
+    "response": "To terminate a loop or switch statement and transfer control to the next statement."
+  }
+]
