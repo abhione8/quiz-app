@@ -85,4 +85,9 @@ public class QuizService {
         }
         return quizVOS;
     }
+
+    public boolean checkDuplicateTitle(String title) {
+        Optional<Quiz> q= quizDAO.findByTitle(title);
+        return q.isPresent();
+    }
 }

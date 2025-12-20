@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz App — Admin</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <style>form input, form select{padding:6px;margin:4px 0}</style>
+</head>
+<body>
+  <div class="container">
+    <h1>Quiz App — Admin</h1>
+    <div style="margin-bottom:12px">
+      <a href="/">Home</a>
+    </div>
+
+    <h2>Admin — Add Question</h2>
+    <form id="add-question-form">
+      <div>
+        <label>Question<br><input name="question" required style="width:100%"></label>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;">
+        <input name="option1" placeholder="Option 1" required style="flex:1">
+        <input name="option2" placeholder="Option 2" required style="flex:1">
+        <input name="option3" placeholder="Option 3" style="flex:1">
+        <input name="option4" placeholder="Option 4" style="flex:1">
+      </div>
+      <div style="margin-top:8px;">
+        <label>Answer (exact option text)<br><input name="answer" required style="width:100%"></label>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:8px;"> 
+        <label>Category<br>
+          <select name="category">
+            <option>JAVA</option>
+            <option>C</option>
+            <option>PYTHON</option>
+            <option>SQL</option>
+            <option>JAVASCRIPT</option>
+            <option>HTML</option>
+          </select>
+        </label>
+        <label>Difficulty<br>
+          <select name="difficultyLevel">
+            <option>EASY</option>
+            <option>MEDIUM</option>
+            <option>HARD</option>
+          </select>
+        </label>
+      </div>
+      <div style="margin-top:8px;">
+        <button id="add-question-btn" type="submit">Add Question</button>
+        <span id="add-question-status"></span>
+      </div>
+    </form>
+
+    <h2 style="margin-top:18px">Admin — Create Quiz</h2>
+    <form id="create-quiz-form">
+      <div>
+        <label>Title<br><input name="title" required style="width:100%"></label>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px;"> 
+        <label>Category<br>
+          <select name="category">
+            <option>JAVA</option>
+            <option>C</option>
+            <option>PYTHON</option>
+            <option>SQL</option>
+            <option>JAVASCRIPT</option>
+            <option>HTML</option>
+          </select>
+        </label>
+        <label>Difficulty<br>
+          <select name="difficultyLevel">
+            <option>EASY</option>
+            <option>MEDIUM</option>
+            <option>HARD</option>
+          </select>
+        </label>
+        <label>Number of Questions<br><input name="numberOfQuestions" type="number" min="1" value="5" style="width:80px"></label>
+      </div>
+      <div style="margin-top:8px;">
+        <button id="create-quiz-btn" type="submit">Create Quiz</button>
+        <span id="create-quiz-status"></span>
+      </div>
+    </form>
+  </div>
+
+  <script src="/admin.js"></script>
+</body>
+</html>

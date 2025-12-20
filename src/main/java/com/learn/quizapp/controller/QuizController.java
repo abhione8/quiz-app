@@ -27,6 +27,11 @@ public class QuizController {
 
     @PostMapping("create")
     public ResponseEntity<ApiResponseVO<String>> createQuiz(@RequestBody QuizVO quizVO){
+        if(quizService.checkDuplicateTitle(quizVO.getTitle())){
+            return ResponseEntity.ok(
+                    new ApiResponseVO<>("success","Title already exists.")
+            );
+        }
         quizService.createQuiz(quizVO);
         return ResponseEntity.ok(
                 new ApiResponseVO<>("success","Quiz created successfully.")
