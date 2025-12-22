@@ -8,6 +8,11 @@ import java.util.List;
 @Entity
 @Data
 @Table(name="DEV_QUIZ")
+@SequenceGenerator(
+        name = "base_seq_gen",
+        sequenceName = "DEV_QUIZ_SEQ",
+        allocationSize = 1
+)
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,4 +20,6 @@ public class Quiz {
     private String title;
     @ManyToMany
     private List<Question> questions;
+    @OneToMany(mappedBy = "quiz")
+    private List<Response> responses;
 }

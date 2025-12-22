@@ -24,22 +24,34 @@ public class JwtService {
             );
 
     // 10 minutes
-    private static final long EXPIRATION_TIME = 10 * 60 * 1000;
+    private static final long EXPIRATION_TIME = 30 * 60 * 1000;
 
     /* ===================== TOKEN GENERATION ===================== */
 
-    public String generateToken(String username) {
+    public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        StringBuilder roles = new StringBuilder();
+        userDetails.getAuthorities().forEach(a -> {
+            if (!roles.isEmpty()) roles.append(",");
+            roles.append(a.getAuthority());
+        });
+        claims.put("roles", roles.toString());
 
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(
                         new Date(System.currentTimeMillis() + EXPIRATION_TIME)
                 )
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public String getRoles(String token){
+        Claims claims = extractAllClaims(token);
+        Object r = claims.get("roles");
+        return r==null?"":r.toString();
     }
 
     /* ===================== TOKEN VALIDATION ===================== */

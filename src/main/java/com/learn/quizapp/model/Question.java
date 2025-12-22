@@ -1,15 +1,20 @@
 package com.learn.quizapp.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Table(name="DEV_QUESTION")
-@Data
-public class Question {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Table(name= "DEV_QUESTION")
+@Getter
+@Setter
+@SequenceGenerator(
+        name = "base_seq_gen",
+        sequenceName = "DEV_QUESTION_SEQ",
+        allocationSize = 1
+)
+public class Question extends BaseEntity{
+
     private String question;
     private String answer;
     private String option1;

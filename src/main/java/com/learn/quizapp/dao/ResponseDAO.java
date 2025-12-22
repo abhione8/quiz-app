@@ -1,11 +1,9 @@
 package com.learn.quizapp.dao;
 
-import com.learn.quizapp.model.User;
+import com.learn.quizapp.model.Response;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserDetailDao extends JpaRepository<User, Long> {
-
-    User findByUsername(String username);
+public interface ResponseDAO extends JpaRepository<Response, Long> {
 }

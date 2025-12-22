@@ -10,16 +10,20 @@ import java.util.Collections;
 
 public class UserDetail implements UserDetails {
 
-    private Users user;
+    private User user;
 
-    public UserDetail(Users user) {
+    public UserDetail(User user) {
         this.user=user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        String role = user.getRole();
+        if(role==null || role.isEmpty()){
+            role = "ROLE_USER";
+        }
+        return Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
     @Override

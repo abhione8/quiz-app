@@ -5,6 +5,7 @@ import com.learn.quizapp.vo.QuestionVO;
 import com.learn.quizapp.vo.QuizVO;
 import com.learn.quizapp.service.QuizService;
 import com.learn.quizapp.vo.ResponseVO;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,11 @@ public class QuizController {
     @Autowired
     QuizService  quizService;
 
-
     @GetMapping("all")
     public ResponseEntity<ApiResponseVO<List<QuizVO>>> getAllQuiz(){
+        List<QuizVO> quizes = quizService.getAllQuizes();
         return ResponseEntity.ok(
-                new ApiResponseVO<>("success",quizService.getAllQuizes())
+                new ApiResponseVO<>("success",quizes)
         );
     }
 
@@ -29,7 +30,7 @@ public class QuizController {
     public ResponseEntity<ApiResponseVO<String>> createQuiz(@RequestBody QuizVO quizVO){
         if(quizService.checkDuplicateTitle(quizVO.getTitle())){
             return ResponseEntity.ok(
-                    new ApiResponseVO<>("success","Title already exists.")
+                    new ApiResponseVO<>("error","Title already exists.")
             );
         }
         quizService.createQuiz(quizVO);
@@ -46,9 +47,9 @@ public class QuizController {
     }
 
     @PostMapping("submit/{id}")
-    public ResponseEntity<ApiResponseVO<String>> submit(@PathVariable Long id, @RequestBody List<ResponseVO> response){
+    public ResponseEntity<ApiResponseVO<String>> submit(@PathVariable Long id, @RequestBody List<ResponseVO> response, HttpServletRequest req){
         return ResponseEntity.ok(
-                new ApiResponseVO<>("success",quizService.calculateScore(id,response))
+                new ApiResponseVO<>("success",quizService.calculateScore(id,response,req.getUserPrincipal().getName()))
         );
     }
 }

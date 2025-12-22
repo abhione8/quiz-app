@@ -2,6 +2,8 @@ package com.learn.quizapp.service;
 
 import com.learn.quizapp.dao.QuestionDAO;
 import com.learn.quizapp.dao.QuizDAO;
+import com.learn.quizapp.dao.ResponseDAO;
+import com.learn.quizapp.dao.UserDetailDao;
 import com.learn.quizapp.model.*;
 import com.learn.quizapp.vo.QuestionVO;
 import com.learn.quizapp.vo.QuizVO;
@@ -22,6 +24,12 @@ public class QuizService {
 
     @Autowired
     QuestionDAO questionDAO;
+
+    @Autowired
+    private UserDetailDao userDetailDao;
+
+    @Autowired
+    private ResponseDAO responseDAO;
 
     public void createQuiz(QuizVO quizVO) {
         List<Question> questions = questionDAO.findByCategoryAndDifficultyLevel(QuestionCategory.valueOf(quizVO.getCategory()), QuestionDifficultyLevel.valueOf(quizVO.getDifficultyLevel()));
@@ -52,7 +60,7 @@ public class QuizService {
         return ques;
     }
 
-    public String calculateScore(Long id, List<ResponseVO> response) {
+    public String calculateScore(Long id, List<ResponseVO> response, String username) {
         Optional<Quiz> quiz= quizDAO.findById(id);
         List<Question> questions= new ArrayList<>();
         quiz.ifPresent(q->{
@@ -66,6 +74,13 @@ public class QuizService {
             }
             i++;
         }
+        Response res =new Response();
+        res.setQuiz(quiz.get());
+        res.setUser(userDetailDao.findByUsername(username));
+        res.setScore(result);
+        res.setQuizTitle(quiz.get().getTitle());
+        res.setUsername(username);
+        responseDAO.save(res);
         return result+" Out of "+ questions.size();
     }
 
